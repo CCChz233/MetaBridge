@@ -1,0 +1,7 @@
+benchmark_id: swebench_verified
+role: source
+name: SWE-bench Verified
+notes: >
+  Source domain for Improver evolution. Evolution, validation, and test
+  instance ids are filled in when the split is frozen. They are not chosen
+  after seeing candidate scores.

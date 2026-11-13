@@ -1,0 +1,7 @@
+benchmark_id: terminalbench
+role: target
+name: Terminal-Bench
+notes: >
+  Target domain. Optimization starts from a freshly initialized harness and
+  does not inherit the SWE-bench harness or its archive unless transfer_mode
+  is full_state, in which case only the Improver archive moves, not the harness.

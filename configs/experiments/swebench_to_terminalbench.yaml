@@ -1,0 +1,55 @@
+# First MetaBridge contrast.
+# Status: protocol. Running it requires a frozen I0, which is not implemented yet.
+# A 10-task, 3-5 generation execution of this file is an engineering check.
+# Confirmatory claims require a larger task set, disjoint splits, and multiple seeds.
+
+experiment_id: swebench_to_terminalbench
+object_of_study: improver
+status: protocol
+
+source_benchmark: swebench_verified
+target_benchmark: terminalbench
+
+controls:
+  task_agent: mini-swe-agent
+  initial_harness: shared_fresh_target_harness
+  inherits_source_harness: false
+  proposer_model: frozen
+  selector_rules: frozen
+  components_under_study:
+    - analyzer
+    - mutator
+  token_budget: matched_across_arms
+  confirmatory_split: test
+
+arms:
+  - id: E0
+    setting: original
+    improver: I0
+    transfer_mode: none
+    purpose: baseline
+  - id: E1
+    setting: cross_benchmark
+    improver: I_SWE
+    transfer_mode: full_state
+    purpose: transfer with accumulated experience
+  - id: E2
+    setting: policy_only
+    improver: I_SWE
+    transfer_mode: policy
+    purpose: policy transfer with source memory cleared
+  - id: E3
+    setting: in_domain
+    improver: I_Terminal
+    transfer_mode: none
+    purpose: in-domain reference, evolved from I0 on the target benchmark
+
+engineering_check:
+  generations: [3, 5]
+  tasks: 10
+  claim_level: engineering_validation
+
+confirmatory:
+  disjoint_splits: [evolution, validation, test]
+  seeds: multiple
+  claim_level: preregistered_comparison

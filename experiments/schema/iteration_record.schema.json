@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://metabridge.dev/schema/iteration_record.schema.json",
+  "title": "MetaBridge Improver iteration record",
+  "description": "One record per Improver iteration. This is the unit from which transfer claims are reconstructed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_id",
+    "improver_id",
+    "parent_id",
+    "arm",
+    "generation",
+    "seed",
+    "source_benchmark",
+    "target_benchmark",
+    "split",
+    "transfer_mode",
+    "components",
+    "mutation",
+    "task_results",
+    "performance",
+    "token_cost",
+    "created_at"
+  ],
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "improver_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Checkpoint id of the Improver after this iteration."
+    },
+    "parent_id": {
+      "type": ["string", "null"],
+      "description": "Parent checkpoint. Null only for the initial Improver."
+    },
+    "arm": {
+      "type": "string",
+      "enum": ["E0", "E1", "E2", "E3"]
+    },
+    "generation": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "seed": {
+      "type": "integer"
+    },
+    "source_benchmark": {
+      "type": "string",
+      "description": "Benchmark on which this Improver lineage was evolved. 'none' for an unevolved I0."
+    },
+    "target_benchmark": {
+      "type": "string",
+      "description": "Benchmark this iteration is optimizing."
+    },
+    "split": {
+      "type": "string",
+      "enum": ["evolution", "validation", "test"]
+    },
+    "transfer_mode": {
+      "type": "string",
+      "enum": ["none", "policy", "full_state"]
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["analyzer", "proposer", "mutator", "selector"],
+      "properties": {
+        "analyzer": { "$ref": "#/$defs/component" },
+        "proposer": { "$ref": "#/$defs/component" },
+        "mutator": { "$ref": "#/$defs/component" },
+        "selector": { "$ref": "#/$defs/component" }
+      }
+    },
+    "mutation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component", "summary", "artifact_hash"],
+      "properties": {
+        "component": {
+          "type": "string",
+          "enum": ["analyzer", "mutator", "harness", "prompt", "code", "none"]
+        },
+        "summary": { "type": "string" },
+        "artifact_hash": { "type": "string" }
+      },
+      "description": "The concrete change accepted or proposed in this iteration."
+    },
+    "task_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["task_id", "success"],
+        "properties": {
+          "task_id": { "type": "string" },
+          "success": { "type": ["boolean", "null"] },
+          "failure_reason": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["success_rate", "n_scored", "n_attempted"],
+      "properties": {
+        "success_rate": { "type": ["number", "null"] },
+        "n_scored": { "type": "integer", "minimum": 0 },
+        "n_attempted": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "token_cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_agent", "improver"],
+      "properties": {
+        "task_agent": { "type": "integer", "minimum": 0 },
+        "improver": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "frozen", "artifact_hash"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": ["analyzer", "proposer", "mutator", "selector"]
+        },
+        "frozen": {
+          "type": "boolean",
+          "description": "True when this study does not evolve the component."
+        },
+        "artifact_hash": {
+          "type": "string",
+          "description": "Hash of the prompt, code, model id, or rule text that defines the component."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+# I0, the unevolved Improver. Artifact hashes are assigned when the first
+# reproducible checkpoint is frozen. Until then this file is a role contract.
+
+improver_id: I0
+parent_id: null
+source_benchmark: none
+
+components:
+  analyzer:
+    frozen: false
+    artifact: null
+  proposer:
+    frozen: true
+    artifact: null
+  mutator:
+    frozen: false
+    artifact: null
+  selector:
+    frozen: true
+    artifact: null
+
+first_study_rule: >
+  Vary analyzer and mutator only. Keep the proposer model and the selector
+  rule fixed, so a transfer effect can be attributed to those two components.

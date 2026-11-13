@@ -1,0 +1,50 @@
+{
+  "record_id": "example-e2-gen0",
+  "improver_id": "I_SWE_policy",
+  "parent_id": "I_SWE",
+  "arm": "E2",
+  "generation": 0,
+  "seed": 0,
+  "source_benchmark": "swebench_verified",
+  "target_benchmark": "terminalbench",
+  "split": "evolution",
+  "transfer_mode": "policy",
+  "components": {
+    "analyzer": {
+      "role": "analyzer",
+      "frozen": false,
+      "artifact_hash": "sha256:analyzer-evolved-on-swe"
+    },
+    "proposer": {
+      "role": "proposer",
+      "frozen": true,
+      "artifact_hash": "sha256:proposer-model-id"
+    },
+    "mutator": {
+      "role": "mutator",
+      "frozen": false,
+      "artifact_hash": "sha256:mutator-evolved-on-swe"
+    },
+    "selector": {
+      "role": "selector",
+      "frozen": true,
+      "artifact_hash": "sha256:selector-rules"
+    }
+  },
+  "mutation": {
+    "component": "none",
+    "summary": "Policy transfer into a fresh Terminal-Bench harness. Archive and source task memory were reset. No target mutation has been accepted yet.",
+    "artifact_hash": "sha256:fresh-terminal-harness"
+  },
+  "task_results": [],
+  "performance": {
+    "success_rate": null,
+    "n_scored": 0,
+    "n_attempted": 0
+  },
+  "token_cost": {
+    "task_agent": 0,
+    "improver": 0
+  },
+  "created_at": "2026-11-13T00:00:00Z"
+}

@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+*.egg-info/
+
+# Upstream reference checkout. Not part of this project.
+gepa/
+
+# Run artifacts stay local until a result is intentionally published.
+results/*
+!results/.gitkeep
